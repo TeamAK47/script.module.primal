@@ -37,7 +37,7 @@ class navigator:
     HOMEPATH      = xbmc.translatePath('special://home/')
     ADDONSPATH    = os.path.join(HOMEPATH, 'addons')
     THISADDONPATH = os.path.join(ADDONSPATH, ADDON_ID)
-    NEWSFILE      = ''
+    NEWSFILE      = 'https://raw.githubusercontent.com/TeamAK47/docs/master/newsinfo.txt'
     LOCALNEWS     = os.path.join(THISADDONPATH, 'newsinfo.txt')
 
     def root(self):
@@ -62,7 +62,7 @@ class navigator:
         downloads = True if control.setting('downloads') == 'true' and (len(control.listDir(control.setting('movie.download.path'))[0]) > 0 or len(control.listDir(control.setting('tv.download.path'))[0]) > 0) else False
         if downloads == True:
             self.addDirectoryItem(32009, 'downloadNavigator', 'downloads.png', 'DefaultAddonProgram.png')
-        self.addDirectoryItem('Info!!', 'newsNavigator', 'tools.png', 'DefaultAddonProgram.png')
+        # self.addDirectoryItem('Info!!', 'newsNavigator', 'tools.png', 'DefaultAddonProgram.png')
         self.endDirectory()
 
     def furk(self):
