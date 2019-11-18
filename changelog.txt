@@ -1,4 +1,8 @@
 Primal Module Changelog:
+
+2.1.4
+fixed trakt from bug 
+str replace zip.read('%.xml'-> zip.read('%.zip.xml'
 2.0.3
 - Fix Trakt and IMDb lists
 2.0.2
