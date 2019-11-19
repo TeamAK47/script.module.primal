@@ -46,9 +46,9 @@ class seasons:
         self.tvdb_key = control.setting('tvdb.user')
         if self.tvdb_key == '' or self.tvdb_key == None:
             self.tvdb_key = '1D62F2F90030C444'
-        self.tvdb_info_link = 'http://thetvdb.com/api/%.zip/series/%.zip/all/%.zip.zip' % (self.tvdb_key, '%.zip', '%.zip')
-        self.tvdb_by_imdb = 'http://thetvdb.com/api/GetSeriesByRemoteID.php?imdbid=%.zip'
-        self.tvdb_by_query = 'http://thetvdb.com/api/GetSeries.php?seriesname=%.zip'
+        self.tvdb_info_link = 'http://thetvdb.com/api/%s/series/%s/all/%s.zip' % (self.tvdb_key, '%s', '%s')
+        self.tvdb_by_imdb = 'http://thetvdb.com/api/GetSeriesByRemoteID.php?imdbid=%s'
+        self.tvdb_by_query = 'http://thetvdb.com/api/GetSeries.php?seriesname=%s'
         self.tvdb_image = 'http://thetvdb.com/banners/'
         self.tvdb_poster = 'http://thetvdb.com/banners/_cache/'
 
@@ -122,7 +122,7 @@ class seasons:
             data = urllib2.urlopen(url, timeout=30).read()
 
             zip = zipfile.ZipFile(StringIO.StringIO(data))
-            result = zip.read('%.zip.xml' % 'en')
+            result = zip.read('%s.zip.xml' % 'en')
             artwork = zip.read('banners.xml')
             zip.close()
 
@@ -136,7 +136,7 @@ class seasons:
                 data = urllib2.urlopen(url, timeout=30).read()
 
                 zip = zipfile.ZipFile(StringIO.StringIO(data))
-                result = zip.read('%.zip.xml' % 'en')
+                result = zip.read('%s.zip.xml' % 'en')
                 artwork = zip.read('banners.xml')
                 zip.close()
 
@@ -145,7 +145,7 @@ class seasons:
                 data = urllib2.urlopen(url, timeout=30).read()
 
                 zip = zipfile.ZipFile(StringIO.StringIO(data))
-                result2 = zip.read('%.zip.xml' % lang)
+                result2 = zip.read('%s.zip.xml' % lang)
                 zip.close()
             else:
                 result2 = result
@@ -372,7 +372,7 @@ class seasons:
 
                 try:
                     local = client.parseDOM(item, 'id')[0]
-                    local = [x for x in locals if '<id>%.zip</id>' % str(local) in x][0]
+                    local = [x for x in locals if '<id>%s</id>' % str(local) in x][0]
                 except:
                     local = item
 
@@ -431,10 +431,10 @@ class seasons:
 
         for i in items:
             try:
-                label = '%.zip %.zip' % (labelMenu, i['season'])
+                label = '%s %s' % (labelMenu, i['season'])
                 try:
                     if i['unaired'] == 'true':
-                        label = '[COLOR darkred][I]%.zip[/I][/COLOR]' % label
+                        label = '[COLOR darkred][I]%s[/I][/COLOR]' % label
                 except:
                     pass
                 systitle = sysname = urllib.quote_plus(i['tvshowtitle'])
@@ -445,7 +445,7 @@ class seasons:
                 meta.update({'code': imdb, 'imdbnumber': imdb, 'imdb_id': imdb})
                 meta.update({'tvdb_id': tvdb})
                 meta.update({'mediatype': 'tvshow'})
-                meta.update({'trailer': '%.zip?action=trailer&name=%.zip' % (sysaddon, sysname)})
+                meta.update({'trailer': '%s?action=trailer&name=%s' % (sysaddon, sysname)})
                 if not 'duration' in i: meta.update({'duration': '60'})
                 elif i['duration'] == '0': meta.update({'duration': '60'})
                 try: meta.update({'duration': str(int(meta['duration']) * 60)})
@@ -462,26 +462,26 @@ class seasons:
                     pass
 
 
-                url = '%.zip?action=episodes&tvshowtitle=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip&season=%.zip' % (sysaddon, systitle, year, imdb, tvdb, season)
+                url = '%s?action=episodes&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s&season=%s' % (sysaddon, systitle, year, imdb, tvdb, season)
 
 
                 cm = []
                 
-                cm.append((playRandom, 'RunPlugin(%.zip?action=random&rtype=episode&tvshowtitle=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip&season=%.zip)' % (sysaddon, urllib.quote_plus(systitle), urllib.quote_plus(year), urllib.quote_plus(imdb), urllib.quote_plus(tvdb), urllib.quote_plus(season))))
+                cm.append((playRandom, 'RunPlugin(%s?action=random&rtype=episode&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s&season=%s)' % (sysaddon, urllib.quote_plus(systitle), urllib.quote_plus(year), urllib.quote_plus(imdb), urllib.quote_plus(tvdb), urllib.quote_plus(season))))
 
-                cm.append((queueMenu, 'RunPlugin(%.zip?action=queueItem)' % sysaddon))
+                cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
 
-                cm.append((watchedMenu, 'RunPlugin(%.zip?action=tvPlaycount&name=%.zip&imdb=%.zip&tvdb=%.zip&season=%.zip&query=7)' % (sysaddon, systitle, imdb, tvdb, season)))
+                cm.append((watchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&season=%s&query=7)' % (sysaddon, systitle, imdb, tvdb, season)))
 
-                cm.append((unwatchedMenu, 'RunPlugin(%.zip?action=tvPlaycount&name=%.zip&imdb=%.zip&tvdb=%.zip&season=%.zip&query=6)' % (sysaddon, systitle, imdb, tvdb, season)))
+                cm.append((unwatchedMenu, 'RunPlugin(%s?action=tvPlaycount&name=%s&imdb=%s&tvdb=%s&season=%s&query=6)' % (sysaddon, systitle, imdb, tvdb, season)))
 
                 if traktCredentials == True:
-                    cm.append((traktManagerMenu, 'RunPlugin(%.zip?action=traktManager&name=%.zip&tvdb=%.zip&content=tvshow)' % (sysaddon, sysname, tvdb)))
+                    cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, sysname, tvdb)))
 
                 if isOld == True:
                     cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
 
-                cm.append((addToLibrary, 'RunPlugin(%.zip?action=tvshowToLibrary&tvshowtitle=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip)' % (sysaddon, systitle, year, imdb, tvdb)))
+                cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systitle, year, imdb, tvdb)))
 
                 item = control.item(label=label)
 
@@ -541,7 +541,7 @@ class episodes:
         self.lang = control.apiLanguage()['tvdb']
         self.showunaired = control.setting('showunaired') or 'true'
 
-        self.tvdb_info_link = 'http://thetvdb.com/api/%.zip/series/%.zip/all/%.zip.zip' % (self.tvdb_key, '%.zip', '%.zip')
+        self.tvdb_info_link = 'http://thetvdb.com/api/%s/series/%s/all/%s.zip' % (self.tvdb_key, '%s', '%s')
         self.tvdb_image = 'http://thetvdb.com/banners/'
         self.tvdb_poster = 'http://thetvdb.com/banners/_cache/'
 
@@ -552,11 +552,11 @@ class episodes:
         self.trakthistory_link = 'http://api.trakt.tv/users/me/history/shows?limit=300'
         self.progress_link = 'http://api.trakt.tv/users/me/watched/shows'
         self.hiddenprogress_link = 'http://api.trakt.tv/users/hidden/progress_watched?limit=1000&type=show'
-        self.calendar_link = 'http://api.tvmaze.com/schedule?date=%.zip'
+        self.calendar_link = 'http://api.tvmaze.com/schedule?date=%s'
         self.onDeck_link = 'http://api.trakt.tv/sync/playback/episodes?extended=full&limit=10'
         self.traktlists_link = 'http://api.trakt.tv/users/me/lists'
         self.traktlikedlists_link = 'http://api.trakt.tv/users/likes/lists?limit=1000000'
-        self.traktlist_link = 'http://api.trakt.tv/users/%.zip/lists/%.zip/items'
+        self.traktlist_link = 'http://api.trakt.tv/users/%s/lists/%s/items'
 
 
     def get(self, tvshowtitle, year, imdb, tvdb, season=None, episode=None, idx=True, create_directory=True):
@@ -703,7 +703,7 @@ class episodes:
     def trakt_list(self, url, user):
         try:
             for i in re.findall('date\[(\d+)\]', url):
-                url = url.replace('date[%.zip]' % i, (self.datetime - datetime.timedelta(days = int(i))).strftime('%Y-%m-%d'))
+                url = url.replace('date[%s]' % i, (self.datetime - datetime.timedelta(days = int(i))).strftime('%Y-%m-%d'))
 
             q = dict(urlparse.parse_qsl(urlparse.urlsplit(url).query))
             q.update({'extended': 'full'})
@@ -867,7 +867,7 @@ class episodes:
                 data = urllib2.urlopen(url, timeout=10).read()
 
                 zip = zipfile.ZipFile(StringIO.StringIO(data))
-                result = zip.read('%.zip.xml' % lang)
+                result = zip.read('%s.zip.xml' % lang)
                 artwork = zip.read('banners.xml')
                 zip.close()
 
@@ -1069,7 +1069,7 @@ class episodes:
                 data = urllib2.urlopen(url, timeout=10).read()
 
                 zip = zipfile.ZipFile(StringIO.StringIO(data))
-                result = zip.read('%.zip.xml' % lang)
+                result = zip.read('%s.zip.xml' % lang)
                 artwork = zip.read('banners.xml')
                 zip.close()
 
@@ -1416,15 +1416,15 @@ class episodes:
                 if not 'label' in i: i['label'] = i['title']
 
                 if i['label'] == '0':
-                    label = '%sx%02d . %.zip %.zip' % (i['season'], int(i['episode']), 'Episode', i['episode'])
+                    label = '%sx%02d . %s %s' % (i['season'], int(i['episode']), 'Episode', i['episode'])
                 else:
-                    label = '%sx%02d . %.zip' % (i['season'], int(i['episode']), i['label'])
+                    label = '%sx%02d . %s' % (i['season'], int(i['episode']), i['label'])
                 if multi == True:
-                    label = '%.zip - %.zip' % (i['tvshowtitle'], label)
+                    label = '%s - %s' % (i['tvshowtitle'], label)
                 
                 try:
                     if i['unaired'] == 'true':
-                        label = '[COLOR darkred][I]%.zip[/I][/COLOR]' % label
+                        label = '[COLOR darkred][I]%s[/I][/COLOR]' % label
                 except:
                     pass
 
@@ -1436,7 +1436,7 @@ class episodes:
 
                 meta = dict((k,v) for k, v in i.iteritems() if not v == '0')
                 meta.update({'mediatype': 'episode'})
-                meta.update({'trailer': '%.zip?action=trailer&name=%.zip' % (sysaddon, systvshowtitle)})
+                meta.update({'trailer': '%s?action=trailer&name=%s' % (sysaddon, systvshowtitle)})
                 if not 'duration' in i: meta.update({'duration': '60'})
                 elif i['duration'] == '0': meta.update({'duration': '60'})
                 try: meta.update({'duration': str(int(meta['duration']) * 60)})
@@ -1451,45 +1451,45 @@ class episodes:
                 sysmeta = urllib.quote_plus(json.dumps(meta))
 
 
-                url = '%.zip?action=play&title=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip&season=%.zip&episode=%.zip&tvshowtitle=%.zip&premiered=%.zip&meta=%.zip&t=%.zip' % (sysaddon, systitle, year, imdb, tvdb, season, episode, systvshowtitle, syspremiered, sysmeta, self.systime)
+                url = '%s?action=play&title=%s&year=%s&imdb=%s&tvdb=%s&season=%s&episode=%s&tvshowtitle=%s&premiered=%s&meta=%s&t=%s' % (sysaddon, systitle, year, imdb, tvdb, season, episode, systvshowtitle, syspremiered, sysmeta, self.systime)
                 sysurl = urllib.quote_plus(url)
 
-                path = '%.zip?action=play&title=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip&season=%.zip&episode=%.zip&tvshowtitle=%.zip&premiered=%.zip' % (sysaddon, systitle, year, imdb, tvdb, season, episode, systvshowtitle, syspremiered)
+                path = '%s?action=play&title=%s&year=%s&imdb=%s&tvdb=%s&season=%s&episode=%s&tvshowtitle=%s&premiered=%s' % (sysaddon, systitle, year, imdb, tvdb, season, episode, systvshowtitle, syspremiered)
 
                 if isFolder == True:
-                    url = '%.zip?action=episodes&tvshowtitle=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip&season=%.zip&episode=%.zip' % (sysaddon, systvshowtitle, year, imdb, tvdb, season, episode)
+                    url = '%s?action=episodes&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s&season=%s&episode=%s' % (sysaddon, systvshowtitle, year, imdb, tvdb, season, episode)
 
 
                 cm = []
 
-                cm.append((queueMenu, 'RunPlugin(%.zip?action=queueItem)' % sysaddon))
+                cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
 
                 if multi == True:
-                    cm.append((tvshowBrowserMenu, 'Container.Update(%.zip?action=seasons&tvshowtitle=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip,return)' % (sysaddon, systvshowtitle, year, imdb, tvdb)))
+                    cm.append((tvshowBrowserMenu, 'Container.Update(%s?action=seasons&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s,return)' % (sysaddon, systvshowtitle, year, imdb, tvdb)))
 
                 try:
                     overlay = int(playcount.getEpisodeOverlay(indicators, imdb, tvdb, season, episode))
                     if overlay == 7:
-                        cm.append((unwatchedMenu, 'RunPlugin(%.zip?action=episodePlaycount&imdb=%.zip&tvdb=%.zip&season=%.zip&episode=%.zip&query=6)' % (sysaddon, imdb, tvdb, season, episode)))
+                        cm.append((unwatchedMenu, 'RunPlugin(%s?action=episodePlaycount&imdb=%s&tvdb=%s&season=%s&episode=%s&query=6)' % (sysaddon, imdb, tvdb, season, episode)))
                         meta.update({'playcount': 1, 'overlay': 7})
                     else:
-                        cm.append((watchedMenu, 'RunPlugin(%.zip?action=episodePlaycount&imdb=%.zip&tvdb=%.zip&season=%.zip&episode=%.zip&query=7)' % (sysaddon, imdb, tvdb, season, episode)))
+                        cm.append((watchedMenu, 'RunPlugin(%s?action=episodePlaycount&imdb=%s&tvdb=%s&season=%s&episode=%s&query=7)' % (sysaddon, imdb, tvdb, season, episode)))
                         meta.update({'playcount': 0, 'overlay': 6})
                 except:
                     pass
 
                 if traktCredentials == True:
-                    cm.append((traktManagerMenu, 'RunPlugin(%.zip?action=traktManager&name=%.zip&tvdb=%.zip&content=tvshow)' % (sysaddon, systvshowtitle, tvdb)))
+                    cm.append((traktManagerMenu, 'RunPlugin(%s?action=traktManager&name=%s&tvdb=%s&content=tvshow)' % (sysaddon, systvshowtitle, tvdb)))
 
                 if isFolder == False:
-                    cm.append((playbackMenu, 'RunPlugin(%.zip?action=alterSources&url=%.zip&meta=%.zip)' % (sysaddon, sysurl, sysmeta)))
+                    cm.append((playbackMenu, 'RunPlugin(%s?action=alterSources&url=%s&meta=%s)' % (sysaddon, sysurl, sysmeta)))
 
                 if isOld == True:
                     cm.append((control.lang2(19033).encode('utf-8'), 'Action(Info)'))
 
-                cm.append((addToLibrary, 'RunPlugin(%.zip?action=tvshowToLibrary&tvshowtitle=%.zip&year=%.zip&imdb=%.zip&tvdb=%.zip)' % (sysaddon, systvshowtitle, year, imdb, tvdb)))
+                cm.append((addToLibrary, 'RunPlugin(%s?action=tvshowToLibrary&tvshowtitle=%s&year=%s&imdb=%s&tvdb=%s)' % (sysaddon, systvshowtitle, year, imdb, tvdb)))
 
-                cm.append(('Primal Settings', 'RunPlugin(%.zip?action=openSettings&query=(0,0))' % sysaddon))
+                cm.append(('Primal Settings', 'RunPlugin(%s?action=openSettings&query=(0,0))' % sysaddon))
                 
                 item = control.item(label=label)
 
@@ -1557,14 +1557,14 @@ class episodes:
                 elif not artPath == None: thumb = os.path.join(artPath, i['image'])
                 else: thumb = addonThumb
 
-                url = '%.zip?action=%.zip' % (sysaddon, i['action'])
-                try: url += '&url=%.zip' % urllib.quote_plus(i['url'])
+                url = '%s?action=%s' % (sysaddon, i['action'])
+                try: url += '&url=%s' % urllib.quote_plus(i['url'])
                 except: pass
 
                 cm = []
 
                 if queue == True:
-                    cm.append((queueMenu, 'RunPlugin(%.zip?action=queueItem)' % sysaddon))
+                    cm.append((queueMenu, 'RunPlugin(%s?action=queueItem)' % sysaddon))
 
                 item = control.item(label=name)
 
